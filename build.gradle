@@ -1,0 +1,87 @@
+buildscript {
+
+    ext {
+        kotlin_version = '1.2.0'
+        vertx_version = '3.4.2'
+        jackson_version = '2.7.9'
+        jackson_kotlin_module_version = '2.7.10-K1.2-SNAPSHOT'
+        junit_version = '4.12'
+        junitVintage_version = '4.12.1'
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.1'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+apply plugin: 'idea'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
+
+dependencies {
+
+    def withoutJackson = {
+        exclude group: "com.fasterxml.jackson.core"
+        exclude group: "com.fasterxml.jackson.module"
+    }
+
+    //
+    // PRODUCTION
+    //
+
+    // Kotlin and language extensions
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    // VERT.X
+    compile "io.vertx:vertx-core:$vertx_version", withoutJackson
+    compile "io.vertx:vertx-web:$vertx_version", withoutJackson
+    compile "io.vertx:vertx-lang-kotlin:$vertx_version", withoutJackson
+    compile "io.vertx:vertx-web-client:$vertx_version", withoutJackson
+
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_kotlin_module_version"
+
+    //
+    // TEST
+    //
+
+    // JUnit
+    testCompile "junit:junit:$junit_version"
+    // Support JUnit 3 and JUnit 4 tests
+    testRuntime "org.junit.vintage:junit-vintage-engine:$junitVintage_version"
+
+    // Vert.x Unit
+    testCompile "io.vertx:vertx-unit:$vertx_version"
+
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
+junitPlatform {
+    platformVersion '1.0.0'
+}
