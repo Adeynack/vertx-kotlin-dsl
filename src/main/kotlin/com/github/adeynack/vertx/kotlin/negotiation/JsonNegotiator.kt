@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import kotlinx.serialization.protobuf.ProtoBuf
 
 class JsonNegotiator(
     private val mapper: ObjectMapper = createDefaultObjectMapper()

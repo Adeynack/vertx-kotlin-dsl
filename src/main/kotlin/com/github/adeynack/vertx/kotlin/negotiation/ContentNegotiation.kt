@@ -1,5 +1,7 @@
 package com.github.adeynack.vertx.kotlin.negotiation
 
+import io.vertx.ext.web.impl.ParsableMIMEValue
+
 data class NegotiationResult<out T>(
     val contentType: MimeDetail,
     val body: T
